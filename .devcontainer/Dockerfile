@@ -1,7 +1,8 @@
-FROM php:8.2-apache
+FROM mcr.microsoft.com/devcontainers/php:8.2-apache-bullseye
 
 # Optional: zusätzliche PHP-Extensions
-RUN apt-get update \
+RUN rm -f /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
     && apt-get install -y --no-install-recommends \
         libzip-dev \
     && docker-php-ext-install zip \
