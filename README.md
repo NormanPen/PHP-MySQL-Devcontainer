@@ -36,6 +36,11 @@ Aus dem Projektverzeichnis auf dem Host:
    make test
    ```
 
+   Lesbare Testausgabe (Testdox-Format):
+   ```bash
+   make testdox
+   ```
+
 Die Anwendung ist dann im Browser unter `http://localhost:8080/` erreichbar.
 
 ## Hinweis zu Beispielcode

@@ -1,0 +1,1 @@
+{"version":2,"defects":{"App\\Tests\\DatabaseConnectionTest::testGetPdoReturnsPdoInstance":8},"times":{"App\\Tests\\ExampleTest::testAddReturnsSum":0.001,"App\\Tests\\DatabaseConnectionTest::testGetPdoReturnsPdoInstance":0.004,"App\\Tests\\SqliteConnectionTest::testForDatabaseReturnsPdoAndCanCreateTable":0.004}}

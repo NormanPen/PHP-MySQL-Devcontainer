@@ -1,14 +1,15 @@
 services:
   app:
     build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     container_name: php-app
     volumes:
-      - ..:/var/www/html:cached
+      - .:/var/www/html:cached
     ports:
       - "8080:80"          # PHP-Apache Webserver
     environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
       # DB-Verbindungsdaten für PHP
       - DB_HOST=db
       - DB_PORT=3306

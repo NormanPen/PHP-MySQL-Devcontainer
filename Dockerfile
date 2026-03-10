@@ -5,11 +5,19 @@ RUN rm -f /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         libzip-dev \
-    && docker-php-ext-install zip \
+        libsqlite3-dev \
+    && docker-php-ext-install zip pdo_mysql pdo_sqlite \
     && rm -rf /var/lib/apt/lists/*
 
 # Apache-Dokumentenroot auf /var/www/html belassen (Standard)
 WORKDIR /var/www/html
+
+# Apache-DocumentRoot auf /var/www/html/public umstellen
+RUN sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#g' /etc/apache2/sites-available/000-default.conf \
+    && sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#g' /etc/apache2/sites-available/default-ssl.conf || true
+
+# mod_rewrite aktivieren, damit .htaccess mit RewriteEngine genutzt werden kann
+RUN a2enmod rewrite
 
 # Composer ist im devcontainer-Image bereits enthalten
 
