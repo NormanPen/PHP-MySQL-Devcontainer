@@ -40,17 +40,21 @@ if ($uri === '/') {
 	$data = [
 		'title' => 'Übungen',
 		'page' => 'exercises',
+		'exercise' => null,
 	];
 } elseif (str_starts_with($uri, '/exercises/')) {
 	// Einzelne Übung, z.B. /exercises/1 oder /exercises/2
+	$exercise = null;
 	$exerciseSlug = substr($uri, strlen('/exercises/'));
 
 	switch ($exerciseSlug) {
 		case '1':
 			$view = 'pages/exercises/exercise1.php';
+			$exercise = '1';
 			break;
 		case '2':
 			$view = 'pages/exercises/exercise2.php';
+			$exercise = '2';
 			break;
 		default:
 			// Unbekannte Übung → zurück zur Übersicht
@@ -61,9 +65,10 @@ if ($uri === '/') {
 	$data = [
 		'title' => 'Übungen',
 		'page' => 'exercises',
+		'exercise' => $exercise,
 	];
 } else {
-	// Optional: einfache 404-Seite
+	// Optional: einfache 404-Seite (hier einfach Startseite mit anderem Titel)
 	$view = 'pages/home.php';
 	$data = [
 		'title' => 'Seite nicht gefunden',
