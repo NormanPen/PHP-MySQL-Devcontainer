@@ -4,3 +4,8 @@
 @import url("layouts/header.css");
 @import url("layouts/footer.css");
 
+#sql-editor {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+}

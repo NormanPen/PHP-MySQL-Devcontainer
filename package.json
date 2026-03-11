@@ -1,0 +1,23 @@
+{
+  "name": "php-practice",
+  "version": "1.0.0",
+  "description": "Dieses Repository dient als Template f\\u00fcr kleine PHP-Projekte mit MySQL in einem Devcontainer.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NormanPen/PHP-MySQL-Devcontainer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NormanPen/PHP-MySQL-Devcontainer/issues"
+  },
+  "homepage": "https://github.com/NormanPen/PHP-MySQL-Devcontainer#readme"
+}
