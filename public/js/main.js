@@ -1,0 +1,1 @@
+console.log("Hallo, willkommen zum PHP Practice Projekt!");

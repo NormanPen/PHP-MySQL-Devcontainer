@@ -26,6 +26,7 @@ $viewFile = $view ? $baseDir . DIRECTORY_SEPARATOR . $view : null;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/styles/main.css">
+    <script src="/js/main.js"></script>
 	<script src="/js/ace/src-min-noconflict/ace.js"></script>
 	<script src="/js/ace/src-min-noconflict/mode-php.js"></script>
 	<script src="/js/ace/src-min-noconflict/theme-textmate.js"></script>
