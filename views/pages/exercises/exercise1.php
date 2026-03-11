@@ -1,5 +1,7 @@
 <?php
 // Einfache Demo: PHP-Code aus dem Editor ausführen und Ausgabe anzeigen.
+// Wichtig: Die eigentliche Ausführung passiert im Sandbox-Container
+// über einen internen HTTP-Call auf SANDBOX_EVAL_URL.
 
 $executionOutput = null;
 $executionError  = null;
@@ -8,17 +10,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code = $_POST['code'] ?? '';
 
     if ($code !== '') {
-        // Führende/trailing PHP-Tags optional entfernen
-        $normalized = preg_replace('/^\s*<\?php\b/i', '', $code);
-        $normalized = preg_replace('/\?>\s*$/', '', $normalized);
+        $sandboxUrl = getenv('SANDBOX_EVAL_URL') ?: 'http://sandbox/api/php-eval.php';
 
-        ob_start();
-        try {
-            eval($normalized);
-            $executionOutput = ob_get_clean();
-        } catch (Throwable $e) {
-            ob_end_clean();
-            $executionError = $e->getMessage();
+        $payload = http_build_query(['code' => $code]);
+        $options = [
+            'http' => [
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n" .
+                             'Content-Length: ' . strlen($payload) . "\r\n",
+                'content' => $payload,
+                'timeout' => 5,
+            ],
+        ];
+
+        $context = stream_context_create($options);
+
+        $response = @file_get_contents($sandboxUrl, false, $context);
+
+        if ($response === false) {
+            $executionError = 'Sandbox-Aufruf fehlgeschlagen.';
+        } else {
+            $data = json_decode($response, true);
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+                $executionError = 'Ungültige Antwort von der Sandbox.';
+            } else {
+                $executionOutput = $data['output'] ?? '';
+                $executionError  = $data['error'] ?? null;
+            }
         }
     }
 }
