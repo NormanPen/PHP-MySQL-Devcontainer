@@ -22,8 +22,8 @@ test:
 testdox:
 	$(DC) -f $(COMPOSE_FILE) exec app ./vendor/bin/phpunit --testdox
 
-db-init:
-	$(DC) -f $(COMPOSE_FILE) exec app php scripts/db-init.php
+migrate:
+	$(DC) -f $(COMPOSE_FILE) exec app php scripts/migrate.php
 
 db-tables:
 	$(DC) -f $(COMPOSE_FILE) exec app php scripts/db-tables.php
@@ -34,4 +34,4 @@ db-add-user:
 db-list-users:
 	$(DC) -f $(COMPOSE_FILE) exec app php scripts/db-list-users.php
 
-.PHONY: up down shell composer-install composer-update test testdox db-init db-tables db-add-user db-list-users
+.PHONY: up down shell composer-install composer-update test testdox migrate db-tables db-add-user db-list-users

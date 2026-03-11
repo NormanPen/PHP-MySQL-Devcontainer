@@ -12,6 +12,22 @@ Dieses Repository dient als Template f\u00fcr kleine PHP-Projekte mit MySQL in e
   - `tests/` f\u00fcr PHPUnit-Tests
 - Makefile-Kommandos f\u00fcr typische Aufgaben
 
+## Datenbank-Migrationen
+
+- SQL-Migrationen liegen im Ordner `migrations/` (z.B. `001_create_users.sql`).
+- Der `MigrationRunner` in `src/Database/Migrations/MigrationRunner.php` f\u00fchrt neue Migrationen aus und tr\u00e4gt sie in der Tabelle `migrations` ein.
+- Nach dem Start der Container kannst du das Schema so anlegen/aktualisieren:
+
+   ```bash
+   make migrate
+   ```
+
+- Aktuelle Tabellen anzeigen:
+
+   ```bash
+   make db-tables
+   ```
+
 ## Wie starten?
 
 Aus dem Projektverzeichnis auf dem Host:
