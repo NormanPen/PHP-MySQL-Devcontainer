@@ -59,6 +59,58 @@ Aus dem Projektverzeichnis auf dem Host:
 
 Die Anwendung ist dann im Browser unter `http://localhost:8080/` erreichbar.
 
+## Makefile-Kommandos
+
+Alle wichtigen Befehle auf einen Blick (immer aus dem Projektverzeichnis auf dem Host aufrufen):
+
+- Dev-Umgebung starten und bauen:
+   ```bash
+   make up
+   ```
+
+- Dev-Umgebung stoppen und Container entfernen:
+   ```bash
+   make down
+   ```
+
+- Shell im PHP-Container:
+   ```bash
+   make shell
+   ```
+
+- Composer-Abhängigkeiten installieren/aktualisieren:
+   ```bash
+   make composer-install
+   make composer-update
+   ```
+
+- PHPUnit-Tests ausführen (normal/Testdox):
+   ```bash
+   make test
+   make testdox
+   ```
+
+- Datenbank-Migrationen ausführen:
+   ```bash
+   make migrate
+   ```
+
+- Tabellenübersicht der Datenbank anzeigen:
+   ```bash
+   make db-tables
+   ```
+
+- Testbenutzer per Script hinzufügen bzw. alle Benutzer listen:
+   ```bash
+   make db-add-user
+   make db-list-users
+   ```
+
+- MySQL-Shell im DB-Container öffnen (DB „app“, User/Pass „app“):
+   ```bash
+   make mysql-shell
+   ```
+
 ## Hinweis zu Beispielcode
 
 - In `src/` und `tests/` befindet sich nur einfacher Beispielcode (`Example` und `ExampleTest`).

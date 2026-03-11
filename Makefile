@@ -34,4 +34,7 @@ db-add-user:
 db-list-users:
 	$(DC) -f $(COMPOSE_FILE) exec app php scripts/db-list-users.php
 
-.PHONY: up down shell composer-install composer-update test testdox migrate db-tables db-add-user db-list-users
+mysql-shell:
+	$(DC) -f $(COMPOSE_FILE) exec db mysql -uapp -papp app
+
+.PHONY: up down shell composer-install composer-update test testdox migrate db-tables db-add-user db-list-users mysql-shell
