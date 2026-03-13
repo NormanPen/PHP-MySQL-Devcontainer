@@ -1,3 +1,5 @@
+test-mail:
+	$(DC) -f $(COMPOSE_FILE) exec app php scripts/test-mail.php
 DC = docker compose
 COMPOSE_FILE = docker-compose.yml
 

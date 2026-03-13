@@ -19,8 +19,12 @@ services:
       - DB_DATABASE=app
       - DB_USERNAME=app
       - DB_PASSWORD=app
+      # Mailhog SMTP
+      - MAIL_HOST=mailhog
+      - MAIL_PORT=1025
     depends_on:
       - db
+      - mailhog
 
   sandbox:
     build:
@@ -52,6 +56,13 @@ services:
       - "3306:3306"         # optional von Host erreichbar
     volumes:
       - db-data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"   # Web UI
+      - "1025:1025"   # SMTP
 
 volumes:
   db-data:

@@ -131,3 +131,15 @@ Alle wichtigen Befehle auf einen Blick (immer aus dem Projektverzeichnis auf dem
    ```
 4. Auf GitHub im Repo unter **Settings \u2192 Template repository** den Haken setzen.
 5. F\u00fcr neue Projekte auf GitHub im Template-Repo auf **Use this template** klicken und einen neuen Projektnamen vergeben.
+
+## E-Mails lokal testen mit Mailhog
+
+- Im lokalen Setup werden alle E-Mails von PHP an Mailhog umgeleitet und NICHT an echte Adressen verschickt.
+- Das Mailhog-Webinterface erreichst du unter: http://localhost:8025
+- Dort kannst du alle Testmails (z.B. für Passwort-Reset) einsehen und die enthaltenen Links nutzen.
+- E-Mails werden niemals an das echte Internet weitergeleitet oder zugestellt.
+- Zum Testen des Mailversands kannst du ausführen:
+  ```bash
+  make test-mail
+  ```
+- Für produktive Umgebungen muss Mailhog durch einen echten SMTP-Server ersetzt werden.

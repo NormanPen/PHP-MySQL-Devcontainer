@@ -19,6 +19,7 @@
             </div>
             <button type="submit" name="login" value="1" class="btn btn-primary w-100">Einloggen</button>
         </form>
+        <p><a href="/forgot-password.php">Passwort vergessen?</a></p>
         <p>Noch keinen Account? <a href="/sign-up">Hier registrieren</a></p>
                 
     </div>

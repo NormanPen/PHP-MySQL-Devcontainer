@@ -44,6 +44,36 @@ class Router
 
     private function registerRoutes(&$view, &$data)
     {
+        // Passwort vergessen/Zurücksetzen
+        $this->get('/forgot-password.php', function() use (&$view, &$data) {
+            $view = 'pages/forgot-password.php';
+            $data = [ 'title' => 'Passwort vergessen', 'page' => 'forgot-password' ];
+        });
+        $this->post('/forgot-password.php', function() {
+            require_once __DIR__ . '/../../vendor/autoload.php';
+            $email = trim($_POST['email'] ?? '');
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $resetService = new \App\Service\PasswordResetService();
+                $token = $resetService->createResetToken($email);
+                if ($token) {
+                    $resetLink = sprintf('http://%s/reset-password.php?token=%s', $_SERVER['HTTP_HOST'], $token);
+                    $subject = 'Passwort zurücksetzen';
+                    $message = "Hallo,\n\nKlicke auf folgenden Link, um dein Passwort zurückzusetzen:\n$resetLink\n\nFalls du das nicht warst, ignoriere diese E-Mail.";
+                    $headers = "From: noreply@example.com\r\nContent-Type: text/plain; charset=UTF-8";
+                    mail($email, $subject, $message, $headers);
+                }
+            }
+            header('Location: /login?reset=1');
+            exit;
+        });
+        $this->get('/reset-password.php', function() use (&$view, &$data) {
+            $view = 'pages/reset-password.php';
+            $data = [ 'title' => 'Passwort zurücksetzen', 'page' => 'reset-password' ];
+        });
+        $this->post('/reset-password.php', function() use (&$view, &$data) {
+            $view = 'pages/reset-password.php';
+            $data = [ 'title' => 'Passwort zurücksetzen', 'page' => 'reset-password' ];
+        });
         $this->get('/', function() use (&$view, &$data) {
             $view = 'pages/home.php';
             $data = [ 'title' => 'Startseite', 'page' => 'home' ];
