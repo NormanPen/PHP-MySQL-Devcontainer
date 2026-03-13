@@ -2,7 +2,8 @@ CREATE TABLE users (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NULL,    
-    name VARCHAR(255) NULL,
+    firstname VARCHAR(255) NULL,
+    lastname VARCHAR(255) NULL,
 
     email_verified_at DATETIME NULL,       
     last_login_at DATETIME NULL,

@@ -20,7 +20,7 @@ class AuthService
     public function authenticateByToken(?string $token): ?array
     {
         if (!$token) return null;
-        $stmt = $this->pdo->prepare('SELECT u.id, u.email, u.name FROM users u JOIN user_tokens t ON t.user_id = u.id WHERE t.token = ? AND t.expires_at > NOW()');
+        $stmt = $this->pdo->prepare('SELECT u.id, u.email, u.firstname, u.lastname FROM users u JOIN user_tokens t ON t.user_id = u.id WHERE t.token = ? AND t.expires_at > NOW()');
         $stmt->execute([$token]);
         $user = $stmt->fetch();
         return $user ?: null;
