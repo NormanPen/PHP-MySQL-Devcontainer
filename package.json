@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/NormanPen/PHP-MySQL-Devcontainer/issues"
   },
-  "homepage": "https://github.com/NormanPen/PHP-MySQL-Devcontainer#readme"
+  "homepage": "https://github.com/NormanPen/PHP-MySQL-Devcontainer#readme",
+  "devDependencies": {
+    "browser-sync": "^3.0.4"
+  }
 }

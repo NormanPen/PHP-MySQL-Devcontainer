@@ -1,3 +1,5 @@
+watch:
+	npx browser-sync start --proxy 'localhost:8080' --files 'views/**/*.php,public/styles/**/*.css'
 test-mail:
 	$(DC) -f $(COMPOSE_FILE) exec app php scripts/test-mail.php
 DC = docker compose

@@ -111,6 +111,12 @@ Alle wichtigen Befehle auf einen Blick (immer aus dem Projektverzeichnis auf dem
    make mysql-shell
    ```
 
+- Live-Reload für Views und Styles (z. B. bei CSS- oder PHP-Änderungen):
+   ```bash
+   make watch
+   ```
+  Dadurch wird ein Live-Server gestartet, der die Seite im Browser automatisch neu lädt, sobald du Änderungen an den Dateien vornimmst.
+
 ## Hinweis zu Beispielcode
 
 - In `src/` und `tests/` befindet sich nur einfacher Beispielcode (`Example` und `ExampleTest`).
