@@ -13,6 +13,13 @@ if (!is_array($data)) {
 // Variablen für View und Layout verfügbar machen (z.B. $title, $page)
 extract($data, EXTR_SKIP);
 
+// Login-Status und User für Header setzen
+$isLoggedIn = isset($user) && is_array($user) && !empty($user);
+if (!isset($user) && isset($_SESSION['user'])) {
+	$user = $_SESSION['user'];
+	$isLoggedIn = true;
+}
+
 // View-Pfad ermitteln
 $baseDir = __DIR__;
 $viewFile = $view ? $baseDir . DIRECTORY_SEPARATOR . $view : null;

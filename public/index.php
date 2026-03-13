@@ -5,6 +5,8 @@ declare(strict_types=1);
 // Composer Autoloader laden (falls du später Controller/Services in src/ nutzt)
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\Database\Connection;
+
 // Session für einfache Login-Logik starten
 session_start();
 
@@ -74,32 +76,7 @@ if ($uri === '/') {
 		'page' => 'exercises',
 		'exercise' => $exercise,
 	];
-} elseif ($uri === '/login') {
-	// Login-Seite (Dummy-Login): bei POST wird der Benutzer einfach in die Session geschrieben
-	if (!empty($_SESSION['user'])) {
-		header('Location: /account');
-		exit;
-	}
-
-	if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-		$username = trim((string)($_POST['username'] ?? ''));
-		if ($username === '') {
-			$username = 'Demo-Benutzer';
-		}
-
-		$_SESSION['user'] = [
-			'name' => $username,
-		];
-
-		header('Location: /account');
-		exit;
-	}
-
-	$view = 'pages/login.php';
-	$data = [
-		'title' => 'Login',
-		'page' => 'login',
-	];
+// ...existing code...
 } elseif ($uri === '/account') {
 	// Account-Seite nur für eingeloggte Benutzer
 	if (empty($_SESSION['user'])) {
@@ -111,6 +88,7 @@ if ($uri === '/') {
 	$data = [
 		'title' => 'Dein Account',
 		'page' => 'account',
+		'user' => $_SESSION['user'],
 	];
 } elseif ($uri === '/logout') {
 	// Einfache Logout-Route
@@ -122,32 +100,56 @@ if ($uri === '/') {
 	session_destroy();
 	header('Location: /');
 	exit;
-} elseif ($uri === '/impressum') {
-	$view = 'pages/impressum.php';
+} elseif ($uri === '/login') {
+	// Login & Registrierung
+	$pdo = Connection::getPdo();
+	$error = null;
+
+	if (!empty($_SESSION['user'])) {
+		header('Location: /account');
+		exit;
+	}
+
+	if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+		require_once __DIR__ . '/../src/Service/UserService.php';
+		$service = new App\Service\UserService($pdo);
+
+		// Registrierung
+		if (isset($_POST['register'])) {
+			$name = trim((string)($_POST['reg_name'] ?? ''));
+			$email = trim((string)($_POST['reg_email'] ?? ''));
+			$password = (string)($_POST['reg_password'] ?? '');
+			$result = $service->registerUser($name, $email, $password);
+			if (isset($result['error'])) {
+				$error = $result['error'];
+			} else {
+				$_SESSION['user'] = $result;
+				header('Location: /account');
+				exit;
+			}
+		}
+		// Login
+		if (isset($_POST['login'])) {
+			$email = trim((string)($_POST['email'] ?? ''));
+			$password = (string)($_POST['password'] ?? '');
+			$result = $service->loginUser($email, $password);
+			if (isset($result['error'])) {
+				$error = $result['error'];
+			} else {
+				$_SESSION['user'] = $result;
+				header('Location: /account');
+				exit;
+			}
+		}
+	}
+
+	$view = 'pages/login.php';
 	$data = [
-		'title' => 'Impressum',
-		'page' => 'impressum',
-	];
-} elseif ($uri === '/datenschutz') {
-	$view = 'pages/datenschutz.php';
-	$data = [
-		'title' => 'Datenschutz',
-		'page' => 'datenschutz',
-	];
-} else {
-	// Optional: einfache 404-Seite (hier einfach Startseite mit anderem Titel)
-	$view = 'pages/home.php';
-	$data = [
-		'title' => 'Seite nicht gefunden',
-		'page' => 'home',
+		'title' => 'Login',
+		'page' => 'login',
+		'error' => $error,
 	];
 }
-
-// Login-Status und Benutzer in die View-Daten legen, damit Header/Views darauf zugreifen können
-$currentUser = $_SESSION['user'] ?? null;
-$data['user'] = $currentUser;
-$data['isLoggedIn'] = $currentUser !== null;
-
 // Layout (base.php) einbinden und View + Daten übergeben
 // base.php kümmert sich darum, header.php, die View und footer.php zu laden
 // und die Variablen aus $data verfügbar zu machen.
